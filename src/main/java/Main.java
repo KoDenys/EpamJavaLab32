@@ -1,4 +1,3 @@
-
 import com.epam.spring.homework1.config.BeansConfig;
 
 import com.epam.spring.homework1.pet.Cheetah;
@@ -13,13 +12,7 @@ public class Main {
         System.out.println("-------------------");
         Cheetah chtByClass = context.getBean(Cheetah.class);
         Cheetah chtByName = (Cheetah) context.getBean("getBeanCheetahA");
-
         System.out.println(chtByClass);
         System.out.println(chtByName);
-
-
-
     }
-
-
 }

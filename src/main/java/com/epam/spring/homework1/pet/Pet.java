@@ -6,15 +6,13 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
-public class Pet{
-
+public class Pet {
    @Autowired
    private List <Animal> animals;
 
-    public void printPets(){
+    public void printPets() {
        for(Animal pts : animals){
            System.out.println(pts.getAnimal());
         }
     }
-
 }

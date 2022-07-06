@@ -10,12 +10,13 @@ import org.springframework.context.annotation.*;
 public class PetConfig {
     @Bean
     @Primary
-    public Cheetah getBeanCheetah(){
+    public Cheetah getBeanCheetah() {
      return new Cheetah();
     }
+
     @Bean
     @Qualifier("CheetahA")
-    public Cheetah getBeanCheetahA(){
+    public Cheetah getBeanCheetahA() {
         return new Cheetah();
     }
 }

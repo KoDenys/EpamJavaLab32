@@ -8,5 +8,4 @@ import org.springframework.context.annotation.*;
 @ComponentScan("com.epam.spring.homework1.other")
 @Import(PetConfig.class)
 public class OtherConfig {
-   
 }
