@@ -10,7 +10,6 @@ public class MyBeanPostProcessor implements BeanPostProcessor {
     public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
         if(bean instanceof Validate) {
             try {
-
                 Field fieldName = bean.getClass().getDeclaredField("name");
                 Field fieldValue = bean.getClass().getDeclaredField("value");
 
@@ -28,5 +27,4 @@ public class MyBeanPostProcessor implements BeanPostProcessor {
         }
         return bean;
     }
-
 }

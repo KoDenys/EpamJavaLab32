@@ -11,36 +11,34 @@ import org.springframework.core.annotation.Order;
 public class ConfigB {
     @Bean(initMethod = "myInitMethod", destroyMethod = "myDestroyMethod")
     @Order(1)
-    public BeanD beanD(){
+    public BeanD beanD() {
         return new BeanD();
     }
 
     @Bean(initMethod = "myInitMethod", destroyMethod = "myDestroyMethod")
     @Order(2)
-    public BeanB beanB(){
+    public BeanB beanB() {
         return new BeanB();
     }
 
     @Bean(initMethod = "myInitMethod", destroyMethod = "myDestroyMethod")
     @Order(3)
-    public BeanC beanC(){
+    public BeanC beanC() {
         return new BeanC();
     }
 
     @Bean
     @Lazy
-    public BeanF beanF(){
+    public BeanF beanF() {
         return new BeanF();
     }
     @Bean
-    public BeanFactoryPP beanFactoryPP(){
+    public BeanFactoryPP beanFactoryPP() {
         return new BeanFactoryPP();
     }
 
     @Bean
-    public MyBeanPostProcessor myBeanPostProcessor(){
+    public MyBeanPostProcessor myBeanPostProcessor() {
         return new MyBeanPostProcessor();
     }
-
-
 }

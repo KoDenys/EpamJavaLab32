@@ -6,7 +6,7 @@ import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 
 @Component
-public class BeanE implements Validate{
+public class BeanE implements Validate {
     private String name;
     private int value;
 

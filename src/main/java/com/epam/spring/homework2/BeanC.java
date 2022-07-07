@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @PropertySource("classpath:prop.properties")
-public class BeanC implements Validate{
+public class BeanC implements Validate {
     @Value(value="${BeanC.name}")
     private String name;
     @Value(value="${BeanC.value}")
