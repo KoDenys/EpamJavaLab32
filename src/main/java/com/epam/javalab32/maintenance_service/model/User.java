@@ -1,11 +1,8 @@
 package com.epam.javalab32.maintenance_service.model;
 
-import lombok.Builder;
 import lombok.Data;
-import java.util.List;
 
 @Data
-@Builder
 public class User {
     private Long userId;
     private String email;
@@ -16,5 +13,4 @@ public class User {
     private boolean active;
 
     private UserType userType;
-    private List<Car> cars;
 }
