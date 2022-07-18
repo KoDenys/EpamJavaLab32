@@ -5,6 +5,7 @@ import com.epam.javalab32.maintenance_service.service.CarService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -35,13 +36,13 @@ public class CarController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    public CarDto createCar(@RequestBody CarDto carDto) {
+    public CarDto createCar(@RequestBody @Validated CarDto carDto) {
         return carService.createCar(carDto);
     }
 
     @ResponseStatus(HttpStatus.OK)
     @PutMapping("/{regNumber}")
-    public CarDto updateCar(@PathVariable String regNumber, @RequestBody CarDto carDto) {
+    public CarDto updateCar(@PathVariable String regNumber, @RequestBody @Validated CarDto carDto) {
         return carService.updateCar(regNumber, carDto);
     }
 

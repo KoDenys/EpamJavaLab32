@@ -5,6 +5,7 @@ import com.epam.javalab32.maintenance_service.service.RepairService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -35,13 +36,13 @@ public class RepairController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    public RepairDto createRepair(@RequestBody RepairDto repairDto) {
+    public RepairDto createRepair(@RequestBody @Validated RepairDto repairDto) {
         return repairService.createRepair(repairDto);
     }
 
     @ResponseStatus(HttpStatus.OK)
     @PutMapping("/{repairId}")
-    public RepairDto updateRepair(@PathVariable Long repairId, @RequestBody RepairDto repairDto) {
+    public RepairDto updateRepair(@PathVariable Long repairId, @RequestBody @Validated RepairDto repairDto) {
         return repairService.updateRepair(repairId, repairDto);
     }
 
