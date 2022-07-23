@@ -1,5 +1,6 @@
 package com.epam.javalab32.maintenance_service.dto;
 
+import com.epam.javalab32.maintenance_service.custom_validation.PhoneNumberConstraint;
 import com.epam.javalab32.maintenance_service.dto.group.OnCreate;
 import com.epam.javalab32.maintenance_service.dto.group.OnUpdate;
 import com.epam.javalab32.maintenance_service.model.UserType;
@@ -25,7 +26,7 @@ public class UserDto {
     private String firstName;
     @NotBlank(message = "First name shouldn't be empty", groups = {OnCreate.class, OnUpdate.class})
     private String lastName;
-    @Size(min=10,max=12, message = "Phone number should contains from 10 to 12 numbers", groups = {OnCreate.class, OnUpdate.class})
+    @PhoneNumberConstraint(groups = {OnCreate.class, OnUpdate.class})
     private String phoneNumber;
     @AssertTrue(groups = OnCreate.class)
     private boolean active;

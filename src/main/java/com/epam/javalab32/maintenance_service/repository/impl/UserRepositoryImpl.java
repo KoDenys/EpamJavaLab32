@@ -1,5 +1,6 @@
 package com.epam.javalab32.maintenance_service.repository.impl;
 
+import com.epam.javalab32.maintenance_service.exception.UserNotFoundException;
 import com.epam.javalab32.maintenance_service.model.User;
 import com.epam.javalab32.maintenance_service.model.UserType;
 import com.epam.javalab32.maintenance_service.repository.UserRepository;
@@ -24,7 +25,7 @@ public class UserRepositoryImpl implements UserRepository {
         return users.stream()
                 .filter(user -> user.getEmail().equals(email))
                 .findFirst()
-                .orElseThrow( () -> new RuntimeException("User with email " + email + " not found."));
+                .orElseThrow(() -> new UserNotFoundException(email));
     }
 
     @Override
@@ -37,7 +38,7 @@ public class UserRepositoryImpl implements UserRepository {
         if(users.removeIf(usr -> usr.getEmail().equals(userEmail))) {
             users.add(user);
         } else {
-            throw new RuntimeException("User with email" + userEmail + " is not found");
+            throw new UserNotFoundException(userEmail);
         }
         return user;
     }
@@ -45,7 +46,7 @@ public class UserRepositoryImpl implements UserRepository {
     @Override
     public void deleteUser(String email) {
         if(!users.removeIf(user -> user.getEmail().equals(email))) {
-            throw new RuntimeException("User with email" + email + " is not found");
+            throw new UserNotFoundException(email);
         }
     }
 }

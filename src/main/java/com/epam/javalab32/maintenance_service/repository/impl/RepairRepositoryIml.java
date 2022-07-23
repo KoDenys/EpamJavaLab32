@@ -1,5 +1,6 @@
 package com.epam.javalab32.maintenance_service.repository.impl;
 
+import com.epam.javalab32.maintenance_service.exception.RepairNotFoundException;
 import com.epam.javalab32.maintenance_service.model.Repair;
 import com.epam.javalab32.maintenance_service.repository.RepairRepository;
 import org.springframework.stereotype.Component;
@@ -23,7 +24,7 @@ public class RepairRepositoryIml implements RepairRepository {
         return repairs.stream()
                 .filter(repair -> repair.getRepairId().equals(repairId))
                 .findFirst()
-                .orElseThrow(()-> new RuntimeException("Repair with id " + repairId + " not found."));
+                .orElseThrow(()-> new RepairNotFoundException(repairId));
     }
 
     @Override
@@ -36,7 +37,7 @@ public class RepairRepositoryIml implements RepairRepository {
         List <Repair> repairsForCar = repairs.stream()
                 .filter(repair -> repair.getRepairedCarId().equals(carId))
                 .collect(Collectors.toList());
-        if(repairsForCar.isEmpty()) throw new RuntimeException("Repairs is not found for this car");
+        if(repairsForCar.isEmpty()) throw new RepairNotFoundException();
         return repairsForCar;
     }
 
@@ -45,7 +46,7 @@ public class RepairRepositoryIml implements RepairRepository {
         if(repairs.removeIf(rep -> rep.getRepairId().equals(repairId))) {
             repairs.add(repair);
         } else {
-            throw new RuntimeException("Repair with id" + repairId + " is not found");
+            throw new RepairNotFoundException(repairId);
         }
         return repair;
     }
@@ -53,7 +54,7 @@ public class RepairRepositoryIml implements RepairRepository {
     @Override
     public void deleteRepair(Long repairId) {
         if(!repairs.removeIf(repair -> repair.getRepairId().equals(repairId))) {
-            throw new RuntimeException("Repair with id " + repairId + " is not found");
+            throw new RepairNotFoundException(repairId);
         }
     }
 }

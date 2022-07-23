@@ -1,5 +1,6 @@
 package com.epam.javalab32.maintenance_service.repository.impl;
 
+import com.epam.javalab32.maintenance_service.exception.CarNotFoundException;
 import com.epam.javalab32.maintenance_service.model.Car;
 import com.epam.javalab32.maintenance_service.repository.CarRepository;
 import org.springframework.stereotype.Component;
@@ -19,19 +20,19 @@ public class CarRepositoryImpl implements CarRepository {
     }
 
     @Override
-    public Car getCarByNumber(String number) {
+    public Car getCarByNumber(String regNumber) {
         return cars.stream()
-                .filter(car -> car.getRegistrationNumber().equals(number))
+                .filter(car -> car.getRegistrationNumber().equals(regNumber))
                 .findFirst()
-                .orElseThrow(()-> new RuntimeException("Car with number " + number + " not found."));
+                .orElseThrow(()-> new CarNotFoundException(regNumber));
     }
 
     @Override
-    public Car updateCar(String registrationNumber, Car car) {
-        if(cars.removeIf(vehicle -> vehicle.getRegistrationNumber().equals(registrationNumber))) {
+    public Car updateCar(String regNumber, Car car) {
+        if(cars.removeIf(vehicle -> vehicle.getRegistrationNumber().equals(regNumber))) {
             cars.add(car);
         } else {
-            throw new RuntimeException("Car with number" + registrationNumber + " is not found");
+            throw new CarNotFoundException(regNumber);
         }
         return car;
     }
@@ -46,14 +47,14 @@ public class CarRepositoryImpl implements CarRepository {
         List <Car> carsForUser = cars.stream()
                 .filter(car -> car.getUserId().equals(userId))
                 .collect(Collectors.toList());
-        if(carsForUser.isEmpty()) throw new RuntimeException("Cars is not found for this user");
+        if(carsForUser.isEmpty()) throw new CarNotFoundException();
         return carsForUser;
     }
 
     @Override
-    public void deleteCar(String registrationNumber) {
-        if(!cars.removeIf(vehicle -> vehicle.getRegistrationNumber().equals(registrationNumber))) {
-            throw new RuntimeException("Car with number" + registrationNumber + " is not found");
+    public void deleteCar(String regNumber) {
+        if(!cars.removeIf(vehicle -> vehicle.getRegistrationNumber().equals(regNumber))) {
+            throw new CarNotFoundException(regNumber);
         }
     }
 }
