@@ -1,52 +1,55 @@
 package com.epam.javalab32.maintenance_service.controller;
 
+import com.epam.javalab32.maintenance_service.api.CarApi;
+import com.epam.javalab32.maintenance_service.controller.assembler.CarAssembler;
+import com.epam.javalab32.maintenance_service.controller.model.CarModel;
 import com.epam.javalab32.maintenance_service.dto.CarDto;
 import com.epam.javalab32.maintenance_service.service.CarService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/car")
 @RequiredArgsConstructor
-public class CarController {
+public class CarController implements CarApi {
     private final CarService carService;
+    private final CarAssembler carAssembler;
 
-    @ResponseStatus(HttpStatus.OK)
-    @GetMapping("/{regNumber}")
-    public CarDto getCar(@PathVariable String regNumber) {
-        return carService.getCarByNumber(regNumber);
+   @Override
+    public CarModel getCar(String regNumber) {
+        CarDto carDto = carService.getCarByNumber(regNumber);
+        return carAssembler.toModel(carDto);
     }
 
-    @ResponseStatus(HttpStatus.OK)
-    @GetMapping
-    public List<CarDto> getAllCars() {
-        return carService.getAllCars();
+    @Override
+    public CollectionModel<CarModel> getAllCars() {
+        List<CarDto> carsDto = carService.getAllCars();
+        return carAssembler.toCollectionModel(carsDto);
     }
 
-    @ResponseStatus(HttpStatus.OK)
-    @GetMapping("/user/{userId}")
-    public List<CarDto> getCarsForUser(@PathVariable Long userId) {
-        return carService.getCarsForUser(userId);
+    @Override
+    public CollectionModel<CarModel> getCarsForUser(Long userId) {
+        List<CarDto> carsDto = carService.getCarsForUser(userId);
+        return carAssembler.toCollectionModel(carsDto);
     }
 
-    @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping
-    public CarDto createCar(@RequestBody CarDto carDto) {
-        return carService.createCar(carDto);
+    @Override
+    public CarModel createCar(CarDto carDto) {
+        CarDto createdCarDto = carService.createCar(carDto);
+        return carAssembler.toModel(createdCarDto);
     }
 
-    @ResponseStatus(HttpStatus.OK)
-    @PutMapping("/{regNumber}")
-    public CarDto updateCar(@PathVariable String regNumber, @RequestBody CarDto carDto) {
-        return carService.updateCar(regNumber, carDto);
+    @Override
+    public CarModel updateCar(String regNumber, CarDto carDto) {
+        CarDto updatedCarDto = carService.updateCar(regNumber, carDto);
+        return carAssembler.toModel(updatedCarDto);
     }
 
-    @DeleteMapping("/{regNumber}")
-    public ResponseEntity<Void> deleteCar(@PathVariable String regNumber) {
+    @Override
+    public ResponseEntity<Void> deleteCar(String regNumber) {
         carService.deleteCar(regNumber);
         return ResponseEntity.noContent().build();
     }
