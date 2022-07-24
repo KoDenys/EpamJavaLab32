@@ -1,10 +1,14 @@
 package com.epam.javalab32.maintenance_service.controller;
 
+import com.epam.javalab32.maintenance_service.api.UserApi;
+import com.epam.javalab32.maintenance_service.controller.assembler.UserAssembler;
+import com.epam.javalab32.maintenance_service.controller.model.UserModel;
 import com.epam.javalab32.maintenance_service.dto.UserDto;
 import com.epam.javalab32.maintenance_service.dto.group.OnCreate;
 import com.epam.javalab32.maintenance_service.dto.group.OnUpdate;
 import com.epam.javalab32.maintenance_service.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -13,37 +17,37 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/user")
 @RequiredArgsConstructor
-public class UserController {
+public class UserController implements UserApi {
     private final UserService userService;
+    private final UserAssembler userAssembler;
 
-    @ResponseStatus(HttpStatus.OK)
-    @GetMapping(value = "/{email}")
-    public UserDto getUser(@PathVariable String email) {
-        return userService.getUser(email);
+    @Override
+    public UserModel getUser(String email) {
+        UserDto userDto = userService.getUser(email);
+        return userAssembler.toModel(userDto);
     }
 
-    @ResponseStatus(HttpStatus.OK)
-    @GetMapping
-    public List<UserDto> getAllUsers() {
-        return userService.geAllUsersDto();
+    @Override
+    public CollectionModel<UserModel> getAllUsers() {
+        List<UserDto> usersDto = userService.geAllUsersDto();
+        return userAssembler.toCollectionModel(usersDto);
     }
 
-    @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping
-    public UserDto createUser(@RequestBody @Validated(OnCreate.class) UserDto userDto) {
-        return userService.createUser(userDto);
+    @Override
+    public UserModel createUser(UserDto userDto) {
+        UserDto createdUserDto = userService.createUser(userDto);
+        return userAssembler.toModel(createdUserDto);
     }
 
-    @ResponseStatus(HttpStatus.OK)
-    @PutMapping("/{email}")
-    public UserDto updateUser(@PathVariable String email, @RequestBody @Validated(OnUpdate.class) UserDto userDto) {
-        return userService.updateUser(email, userDto);
+    @Override
+    public UserModel updateUser(String email, UserDto userDto) {
+        UserDto updatedUserDto = userService.updateUser(email, userDto);
+        return userAssembler.toModel(updatedUserDto);
     }
 
-    @DeleteMapping("/{email}")
-    public ResponseEntity<Void> deleteUser(@PathVariable String email) {
+   @Override
+    public ResponseEntity<Void> deleteUser(String email) {
         userService.deleteUser(email);
         return ResponseEntity.noContent().build();
     }

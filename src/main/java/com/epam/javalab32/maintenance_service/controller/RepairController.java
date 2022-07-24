@@ -1,53 +1,55 @@
 package com.epam.javalab32.maintenance_service.controller;
 
+import com.epam.javalab32.maintenance_service.api.RepairApi;
+import com.epam.javalab32.maintenance_service.controller.assembler.RepairAssembler;
+import com.epam.javalab32.maintenance_service.controller.model.RepairModel;
 import com.epam.javalab32.maintenance_service.dto.RepairDto;
 import com.epam.javalab32.maintenance_service.service.RepairService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/repair")
 @RequiredArgsConstructor
-public class RepairController {
+public class RepairController implements RepairApi {
     private final RepairService repairService;
+    private final RepairAssembler repairAssembler;
 
-    @ResponseStatus(HttpStatus.OK)
-    @GetMapping("/{repairId}")
-    public RepairDto getRepair(@PathVariable Long repairId) {
-        return repairService.getRepairById(repairId);
+    @Override
+    public RepairModel getRepair(Long repairId) {
+        RepairDto repairDto = repairService.getRepairById(repairId);
+        return repairAssembler.toModel(repairDto);
     }
 
-    @ResponseStatus(HttpStatus.OK)
-    @GetMapping("/car/{carId}")
-    public List<RepairDto> getRepairForCar(@PathVariable Long carId) {
-        return repairService.getRepairsForCar(carId);
+    @Override
+    public CollectionModel<RepairModel> getRepairForCar(Long carId) {
+        List<RepairDto> repairsDto = repairService.getRepairsForCar(carId);
+        return repairAssembler.toCollectionModel(repairsDto);
     }
 
-    @ResponseStatus(HttpStatus.OK)
-    @GetMapping
-    public List<RepairDto> getAllRepairs() {
-        return repairService.getAllRepairs();
+    @Override
+    public CollectionModel<RepairModel> getAllRepairs() {
+        List<RepairDto> repairsDto = repairService.getAllRepairs();
+        return repairAssembler.toCollectionModel(repairsDto);
     }
 
-    @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping
-    public RepairDto createRepair(@RequestBody @Validated RepairDto repairDto) {
-        return repairService.createRepair(repairDto);
+    @Override
+    public RepairModel createRepair(RepairDto repairDto) {
+        RepairDto createdRepairDto = repairService.createRepair(repairDto);
+        return repairAssembler.toModel(createdRepairDto);
     }
 
-    @ResponseStatus(HttpStatus.OK)
-    @PutMapping("/{repairId}")
-    public RepairDto updateRepair(@PathVariable Long repairId, @RequestBody @Validated RepairDto repairDto) {
-        return repairService.updateRepair(repairId, repairDto);
+    @Override
+    public RepairModel updateRepair(Long repairId, RepairDto repairDto) {
+        RepairDto updatedRepairDto = repairService.updateRepair(repairId, repairDto);
+        return repairAssembler.toModel(updatedRepairDto);
     }
 
-    @DeleteMapping("/{repairId}")
-    public ResponseEntity<Void> deleteRepair(@PathVariable Long repairId) {
+    @Override
+    public ResponseEntity<Void> deleteRepair(Long repairId) {
         repairService.deleteRepair(repairId);
         return ResponseEntity.noContent().build();
     }

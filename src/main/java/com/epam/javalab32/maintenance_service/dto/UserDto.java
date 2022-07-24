@@ -17,7 +17,7 @@ public class UserDto {
     @Email(groups = {OnCreate.class, OnUpdate.class})
     private String email;
     @NotBlank(message = "password shouldn't be empty", groups = OnCreate.class)
-    @Null(message = "Repeat password should be missed in request")
+    @Null(message = "Password should be missed in request")
     private String password;
     @NotBlank(message = "Repeat password shouldn't be empty", groups = OnCreate.class)
     @Null(message = "Repeat password should be missed in request")
