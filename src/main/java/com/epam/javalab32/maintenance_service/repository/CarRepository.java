@@ -1,19 +1,25 @@
 package com.epam.javalab32.maintenance_service.repository;
 
 import com.epam.javalab32.maintenance_service.model.Car;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-public interface CarRepository {
-    Car getCarByNumber(String number);
+@Repository
+public interface CarRepository extends JpaRepository<Car, Long> {
 
-    List<Car> getAllCars();
+    Car getCarByRegistrationNumber(String registrationNumber);
 
-    List<Car> getCarsForUser(Long userId);
+    List<Car> findAll(Sort sort);
 
-    Car createCar(Car car);
+    List<Car> findAllCarsForUser(Long userId, Pageable pageable);
 
-    Car updateCar(String registrationNumber, Car car);
+    @Query(nativeQuery = true)
+    List<Car> findAllCarsWithRepair();
 
-    void deleteCar(String registrationNumber);
+    void deleteCarByRegistrationNumber(String registrationNumber);
 }

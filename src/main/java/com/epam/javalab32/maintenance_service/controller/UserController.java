@@ -41,8 +41,8 @@ public class UserController implements UserApi {
     }
 
     @Override
-    public UserModel updateUser(String email, UserDto userDto) {
-        UserDto updatedUserDto = userService.updateUser(email, userDto);
+    public UserModel updateUser(UserDto userDto) {
+        UserDto updatedUserDto = userService.updateUser(userDto);
         return userAssembler.toModel(updatedUserDto);
     }
 

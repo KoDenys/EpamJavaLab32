@@ -3,7 +3,6 @@ package com.epam.javalab32.maintenance_service.model;
 import com.epam.javalab32.maintenance_service.model.enums.ErrorType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.RequiredArgsConstructor;
 
 import java.time.LocalDateTime;
 

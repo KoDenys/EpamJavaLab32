@@ -32,11 +32,10 @@ public interface UserApi {
     @PostMapping
     UserModel createUser(@RequestBody @Validated(OnCreate.class) UserDto userDto);
 
-    @ApiImplicitParam(name = "email", paramType = "path", required = true, value = "User email")
     @ApiOperation("Update user")
     @ResponseStatus(HttpStatus.OK)
-    @PutMapping("/{email}")
-    UserModel updateUser(@PathVariable String email, @RequestBody @Validated(OnUpdate.class) UserDto userDto);
+    @PutMapping
+    UserModel updateUser(@RequestBody @Validated(OnUpdate.class) UserDto userDto);
 
     @ApiImplicitParam(name = "email", paramType = "path", required = true, value = "User email")
     @ApiOperation("Delete user")

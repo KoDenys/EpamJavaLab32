@@ -30,7 +30,7 @@ public class RepairAssembler extends RepresentationModelAssemblerSupport<RepairD
 
         Link get = linkTo(methodOn(RepairController.class).getRepair(entity.getRepairId())).withRel(GET_REPAIR);
         Link create = linkTo(methodOn(RepairController.class).createRepair(entity)).withRel(CREATE_REPAIR);
-        Link update = linkTo(methodOn(RepairController.class).updateRepair(entity.getRepairId(), entity)).withRel(UPDATE_REPAIR);
+        Link update = linkTo(methodOn(RepairController.class).updateRepair(entity)).withRel(UPDATE_REPAIR);
         Link delete = linkTo(methodOn(RepairController.class).deleteRepair(entity.getRepairId())).withRel(DELETE_REPAIR);
 
         repairModel.add(get, create, update, delete);
@@ -43,7 +43,7 @@ public class RepairAssembler extends RepresentationModelAssemblerSupport<RepairD
         CollectionModel<RepairModel> repairModels = super.toCollectionModel(entities);
 
         Link getAll = linkTo(methodOn(RepairController.class).getAllRepairs()).withRel(GET_ALL_REPAIRS);
-        Link getAllForCar = linkTo(methodOn(RepairController.class).getRepairForCar(((RepairDto) entities.iterator()).getRepairedCarId())).withRel(GET_ALL_REPAIRS_FOR_CAR);
+        Link getAllForCar = linkTo(methodOn(RepairController.class).getRepairForCar(entities.iterator().next().getCarId())).withRel(GET_ALL_REPAIRS_FOR_CAR);
 
         repairModels.add(getAll, getAllForCar);
         return repairModels;

@@ -31,6 +31,12 @@ public class CarController implements CarApi {
     }
 
     @Override
+    public CollectionModel<CarModel> getAllCarsWithRepairs() {
+        List<CarDto> carsDto = carService.getAllCarsWithRepairs();
+        return carAssembler.toCollectionModel(carsDto);
+    }
+
+    @Override
     public CollectionModel<CarModel> getCarsForUser(Long userId) {
         List<CarDto> carsDto = carService.getCarsForUser(userId);
         return carAssembler.toCollectionModel(carsDto);
@@ -40,11 +46,11 @@ public class CarController implements CarApi {
     public CarModel createCar(CarDto carDto) {
         CarDto createdCarDto = carService.createCar(carDto);
         return carAssembler.toModel(createdCarDto);
-    }
+}
 
     @Override
-    public CarModel updateCar(String regNumber, CarDto carDto) {
-        CarDto updatedCarDto = carService.updateCar(regNumber, carDto);
+    public CarModel updateCar(CarDto carDto) {
+        CarDto updatedCarDto = carService.updateCar(carDto);
         return carAssembler.toModel(updatedCarDto);
     }
 

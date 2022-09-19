@@ -15,6 +15,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 public class CarAssembler extends RepresentationModelAssemblerSupport<CarDto, CarModel> {
     public static final String GET_CAR = "get_car";
     public static final String GET_ALL_CARS = "get_cars";
+    public static final String GET_ALL_CARS_REPAIRS = "get_cars_with_repairs";
     public static final String GET_ALL_CARS_FOR_USER = "get_cars_for_user";
     public static final String CREATE_CAR = "create_car";
     public static final String UPDATE_CAR = "update_car";
@@ -30,7 +31,7 @@ public class CarAssembler extends RepresentationModelAssemblerSupport<CarDto, Ca
 
        Link get = linkTo(methodOn(CarController.class).getCar(entity.getRegistrationNumber())).withRel(GET_CAR);
        Link create = linkTo(methodOn(CarController.class).createCar(entity)).withRel(CREATE_CAR);
-       Link update = linkTo(methodOn(CarController.class).updateCar(entity.getRegistrationNumber(), entity)).withRel(UPDATE_CAR);
+       Link update = linkTo(methodOn(CarController.class).updateCar(entity)).withRel(UPDATE_CAR);
        Link delete = linkTo(methodOn(CarController.class).deleteCar(entity.getRegistrationNumber())).withRel(DELETE_CAR);
 
        carModel.add(get, create, update, delete);
@@ -43,9 +44,10 @@ public class CarAssembler extends RepresentationModelAssemblerSupport<CarDto, Ca
         CollectionModel<CarModel> carModels = super.toCollectionModel(entities);
 
         Link getAll = linkTo(methodOn(CarController.class).getAllCars()).withRel(GET_ALL_CARS);
-        Link getAllForUser = linkTo(methodOn(CarController.class).getCarsForUser(((CarDto) entities.iterator()).getUserId())).withRel(GET_ALL_CARS_FOR_USER);
+        Link getAllCarsWithRepairs = linkTo(methodOn(CarController.class).getAllCarsWithRepairs()).withRel(GET_ALL_CARS_REPAIRS);
+        Link getAllForUser = linkTo(methodOn(CarController.class).getCarsForUser(entities.iterator().next().getUserId())).withRel(GET_ALL_CARS_FOR_USER);
 
-        carModels.add(getAll, getAllForUser);
+        carModels.add(getAll, getAllCarsWithRepairs, getAllForUser);
         return carModels;
     }
 }

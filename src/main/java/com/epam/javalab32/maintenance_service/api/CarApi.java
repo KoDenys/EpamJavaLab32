@@ -25,6 +25,11 @@ public interface CarApi {
     @GetMapping
     CollectionModel<CarModel> getAllCars();
 
+    @ApiOperation("Get all cars with repairs")
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("/repair")
+    CollectionModel<CarModel> getAllCarsWithRepairs();
+
     @ApiImplicitParam(name = "userId", paramType = "path", required = true, value = "Car owner(user) id")
     @ApiOperation("Get all cars for user")
     @ResponseStatus(HttpStatus.OK)
@@ -36,11 +41,10 @@ public interface CarApi {
     @PostMapping
     CarModel createCar(@RequestBody @Validated CarDto carDto);
 
-    @ApiImplicitParam(name = "regNumber", paramType = "path", required = true, value = "Car registration number")
     @ApiOperation("Update car")
     @ResponseStatus(HttpStatus.OK)
-    @PutMapping("/{regNumber}")
-    CarModel updateCar(@PathVariable String regNumber, @RequestBody @Validated CarDto carDto);
+    @PutMapping
+    CarModel updateCar(@RequestBody @Validated CarDto carDto);
 
     @ApiImplicitParam(name = "regNumber", paramType = "path", required = true, value = "Car registration number")
     @ApiOperation("Delete car")

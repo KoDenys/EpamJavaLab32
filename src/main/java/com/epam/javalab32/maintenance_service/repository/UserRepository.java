@@ -1,17 +1,16 @@
 package com.epam.javalab32.maintenance_service.repository;
 
 import com.epam.javalab32.maintenance_service.model.User;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-public interface UserRepository {
-    User getUserByEmail(String email);
+@Repository
+public interface UserRepository extends JpaRepository<User, Long> {
+    User findByEmail(String email);
 
-    List<User> getAllUsers();
+    List<User> findAll();
 
-    User createUser(User user);
-
-    User updateUser(String userEmail, User user);
-
-    void deleteUser(String email);
+    void deleteByEmail(String email);
 }

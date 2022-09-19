@@ -36,11 +36,10 @@ public interface RepairApi {
     @PostMapping
     RepairModel createRepair(@RequestBody @Validated RepairDto repairDto);
 
-    @ApiImplicitParam(name = "repairId", paramType = "path", required = true, value = "Repair id")
     @ApiOperation("Update repair")
     @ResponseStatus(HttpStatus.OK)
-    @PutMapping("/{repairId}")
-    RepairModel updateRepair(@PathVariable Long repairId, @RequestBody @Validated RepairDto repairDto);
+    @PutMapping
+    RepairModel updateRepair(@RequestBody @Validated RepairDto repairDto);
 
     @ApiImplicitParam(name = "repairId", paramType = "path", required = true, value = "Repair id")
     @ApiOperation("Delete repair")

@@ -3,14 +3,20 @@ package com.epam.javalab32.maintenance_service.dto;
 import com.epam.javalab32.maintenance_service.custom_validation.PhoneNumberConstraint;
 import com.epam.javalab32.maintenance_service.dto.group.OnCreate;
 import com.epam.javalab32.maintenance_service.dto.group.OnUpdate;
+import com.epam.javalab32.maintenance_service.model.Car;
 import com.epam.javalab32.maintenance_service.model.UserType;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
-import lombok.Data;
+import lombok.*;
 
 import javax.validation.constraints.*;
+import java.util.List;
 
-@Data
+@Setter
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
+@ToString
 @JsonInclude(Include.NON_NULL)
 public class UserDto {
     private Long userId;
@@ -33,4 +39,5 @@ public class UserDto {
 
     @NotNull
     private UserType userType;
+    private List<Car> cars;
 }

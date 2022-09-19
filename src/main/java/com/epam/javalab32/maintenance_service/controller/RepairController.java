@@ -43,8 +43,8 @@ public class RepairController implements RepairApi {
     }
 
     @Override
-    public RepairModel updateRepair(Long repairId, RepairDto repairDto) {
-        RepairDto updatedRepairDto = repairService.updateRepair(repairId, repairDto);
+    public RepairModel updateRepair(RepairDto repairDto) {
+        RepairDto updatedRepairDto = repairService.updateRepair(repairDto);
         return repairAssembler.toModel(updatedRepairDto);
     }
 
